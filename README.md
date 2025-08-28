@@ -20,8 +20,8 @@ SuperShellAI is an advanced penetration testing tool that creates highly obfusca
 # Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/badeeuzzaman/supershellai.git
-cd supershellai
+git clone https://github.com/badeeuzzaman/SuperShellAI.git
+cd SuperShellAI
 ```
 2. Install required dependencies:
 ```bash
