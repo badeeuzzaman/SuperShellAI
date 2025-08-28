@@ -1,5 +1,6 @@
 # SuperShellAI
-<img width="1498" height="127" alt="image" src="https://github.com/user-attachments/assets/4114a628-ed4c-44b9-b7cb-d6904570efba" />
+<img width="1498" height="127" alt="image" src="https://github.com/user-attachments/assets/b440d2bf-f8b6-4537-ae0e-61ac819d3260" />
+
 
 # Description
 SuperShellAI is an advanced penetration testing tool that creates highly obfuscated PowerShell reverse shell payloads with integrated AI-powered evasion techniques. This tool leverages DeepSeek AI to generate polymorphic payloads that can bypass modern EDR (Endpoint Detection and Response) solutions and antivirus software.
@@ -67,4 +68,5 @@ If you encounter any issues or have questions:
 3. Provide sample code and error messages if applicable
 
 # Screenshot
-<img width="1530" height="867" alt="image" src="https://github.com/user-attachments/assets/3dcd84e5-c1c4-4f3c-b507-21bc8bf59a53" />
+<img width="1518" height="859" alt="image" src="https://github.com/user-attachments/assets/df882656-86b9-4ee3-a6ba-43ed9900f1d1" />
+
