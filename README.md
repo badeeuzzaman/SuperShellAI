@@ -41,6 +41,11 @@ Follow the interactive prompts to:
 4. Choose shell type (PowerShell, Nishang, or CMD)
 5. Specify output filename
 
+To test the payload.ps1, run on cmd:
+```bash
+powershell -ExecutionPolicy Bypass -File payload.ps1
+```
+
 # Generation Modes
 1. Basic Obfuscation: Local obfuscation without API calls
 2. AI-Powered Obfuscation: Enhanced obfuscation using DeepSeek AI
