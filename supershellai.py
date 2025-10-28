@@ -39,7 +39,7 @@ class DeepSeekIntegration:
 
         try:
             print(f"{Fore.YELLOW}Making API request to DeepSeek...{Style.RESET_ALL}")
-            response = requests.post(self.api_url, headers=self.headers, json=data, timeout=30)
+            response = requests.post(self.api_url, headers=self.headers, json=data, timeout=150)
             response.raise_forStatus()
             result = response.json()
             print(f"{Fore.GREEN}API request successful!{Style.RESET_ALL}")
