@@ -40,7 +40,7 @@ class DeepSeekIntegration:
         try:
             print(f"{Fore.YELLOW}Making API request to DeepSeek...{Style.RESET_ALL}")
             response = requests.post(self.api_url, headers=self.headers, json=data, timeout=150)
-            response.raise_for_Status()
+            response.raise_for_status()
             result = response.json()
             print(f"{Fore.GREEN}API request successful!{Style.RESET_ALL}")
             return result['choices'][0]['message']['content']
@@ -407,4 +407,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
