@@ -6,6 +6,7 @@ import string
 import argparse
 import time
 import os
+from datetime import datetime
 from typing import List, Dict, Optional
 
 try:
@@ -189,13 +190,43 @@ def random_string(length: int) -> str:
     """
     return ''.join(random.choice(string.ascii_letters) for _ in range(length))
 
-def save_to_file(content: str, filename: str) -> None:
+def ensure_payload_folder() -> str:
     """
-    Save content to a file
+    Ensure the Payload folder exists, create if it doesn't
     """
-    with open(filename, 'w') as f:
-        f.write(content)
-    print(f"{Fore.GREEN}Payload saved to {filename}{Style.RESET_ALL}")
+    folder_name = "Payload"
+    
+    try:
+        os.makedirs(folder_name, exist_ok=True)
+        print(f"{Fore.GREEN}Using payload folder: {folder_name}{Style.RESET_ALL}")
+        return folder_name
+    except OSError as e:
+        print(f"{Fore.RED}Error creating folder: {e}{Style.RESET_ALL}")
+        return "."
+
+def save_to_file(content: str, filename: str, folder: str = "Payload") -> str:
+    """
+    Save content to a file in the specified folder
+    Returns the full path to the saved file
+    """
+    # Ensure the folder exists
+    os.makedirs(folder, exist_ok=True)
+    
+    # Create full file path
+    filepath = os.path.join(folder, filename)
+    
+    try:
+        with open(filepath, 'w') as f:
+            f.write(content)
+        print(f"{Fore.GREEN}Payload saved to: {filepath}{Style.RESET_ALL}")
+        return filepath
+    except Exception as e:
+        print(f"{Fore.RED}Error saving file: {e}{Style.RESET_ALL}")
+        # Fallback to current directory
+        with open(filename, 'w') as f:
+            f.write(content)
+        print(f"{Fore.YELLOW}Payload saved to current directory as: {filename}{Style.RESET_ALL}")
+        return filename
 
 def clear_screen():
     """
@@ -214,7 +245,7 @@ def display_banner():
                     ┗┛┗┻┣┛┗ ┛ ┗┛┛┗┗ ┗┗  ┛┗┻
                         ┛        
         PowerShell RCE Generator with AI Evasion Techniques
-                Created by HantuKod | Version 1.3                                                                                                                                                                                                        
+                Created by HantuKod | Version 1.4                                                                                                                                                                                                        
    {Style.RESET_ALL}
    """
     print(banner)
@@ -351,6 +382,10 @@ def main():
     clear_screen()
     display_banner()
     
+    # Ensure Payload folder exists
+    print(f"{Fore.YELLOW}Setting up payload folder...{Style.RESET_ALL}")
+    payload_folder = ensure_payload_folder()
+    
     # Get user input
     user_input = get_user_input()
     
@@ -385,8 +420,8 @@ def main():
     print(f"{Fore.GREEN}{'='*60}{Style.RESET_ALL}")
     print(f"{Fore.WHITE}{final_payload}{Style.RESET_ALL}")
     
-    # Save to file
-    save_to_file(final_payload, user_input['output'])
+    # Save to file in the Payload folder
+    saved_file = save_to_file(final_payload, user_input['output'])
     
     # Generate a one-liner version if it's not polymorphic
     if user_input['mode'] != 'polymorphic':
@@ -398,14 +433,31 @@ def main():
         print(f"{Fore.BLUE}{'='*60}{Style.RESET_ALL}")
         print(f"{Fore.WHITE}{oneliner}{Style.RESET_ALL}")
         
-        # Save one-liner to file
+        # Save one-liner to file in the Payload folder
         oneliner_file = user_input['output'].replace(".ps1", "_oneliner.txt")
-        save_to_file(oneliner, oneliner_file)
+        oneliner_saved = save_to_file(oneliner, oneliner_file)
     
-    print(f"\n{Fore.GREEN}Generation complete! Remember to set up your listener before executing the payload.{Style.RESET_ALL}")
+    # Create a metadata file with generation details in Payload folder
+    metadata = f"""
+SuperShellAI Payload Generation Metadata
+========================================
+Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Target IP: {user_input['ip']}
+Target Port: {user_input['port']}
+Generation Mode: {user_input['mode']}
+Shell Type: {user_input['shell_type']}
+Output Folder: {payload_folder}
+
+Main Payload: {user_input['output']}
+One-liner: {user_input['output'].replace('.ps1', '_oneliner.txt') if user_input['mode'] != 'polymorphic' else 'N/A'}
+
+Listener Command: nc -lvnp {user_input['port']}
+"""
+    metadata_file = save_to_file(metadata, "generation_metadata.txt")
+    
+    print(f"\n{Fore.GREEN}Generation complete! All files saved in: {payload_folder}/{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}Listener command example: nc -lvnp {user_input['port']}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}Check the metadata file for generation details: {payload_folder}/generation_metadata.txt{Style.RESET_ALL}")
 
 if __name__ == "__main__":
     main()
-
-
